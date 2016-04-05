@@ -12,7 +12,7 @@ Get-ChildItem  *.ps1 | select FullName, @{n='Encoding';e={Get-FileEncoding $_.Fu
 Same as previous example but fixes encoding using set-content
 #>
 function Get-FileCharacterEncoding {
-    [CmdletBinding()] 
+    [CmdletBinding()]
     Param (
         [Parameter(Mandatory = $True, ValueFromPipelineByPropertyName = $True)]
         $Path
@@ -22,5 +22,6 @@ function Get-FileCharacterEncoding {
         $File = New-Object System.IO.StreamReader -arg $Path, defaultEncodingIfNoBom
         $File.Peek() | Out-Null
         $File.CurrentEncoding
+        $File.Dispose() | Out-Null
     }
 }
