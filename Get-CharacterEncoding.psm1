@@ -14,14 +14,14 @@ Same as previous example but fixes encoding using set-content
 function Get-FileCharacterEncoding {
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $True, ValueFromPipelineByPropertyName = $True)]
-        $Path
+        [Parameter(Mandatory = $True, ValueFromPipeline = $True)]
+        [System.IO.FileInfo]$File
     )
  
     process {
-        $File = New-Object System.IO.StreamReader -arg $Path, defaultEncodingIfNoBom
-        $File.Peek() | Out-Null
-        $File.CurrentEncoding
-        $File.Dispose() | Out-Null
+        $FileStreamReader = New-Object System.IO.StreamReader -arg $File.FullName, defaultEncodingIfNoBom
+        $FileStreamReader.Peek() | Out-Null
+        $FileStreamReader.CurrentEncoding
+        $FileStreamReader.Dispose() | Out-Null
     }
 }
